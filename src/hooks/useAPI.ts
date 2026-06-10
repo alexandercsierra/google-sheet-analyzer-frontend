@@ -1,15 +1,15 @@
 import axios from "axios";
+import { useState } from "react";
 
 const BASE_URL = "http://localhost:8080";
 
 const useAPI = () => {
-  const fetchSheetData = ({
-    sheetUrl,
-    sheet,
-    range,
-    setColumnTitles,
-    setRowData,
-  }) => {
+  const [columnTitles, setColumnTitles] = useState<string[]>([]);
+  const [rowData, setRowData] = useState<any[]>([]);
+  const [answer, setAnswer] = useState<string>("");
+  const [question, setQuestion] = useState<string>("");
+
+  const fetchSheetData = ({ sheetUrl, sheet, range }) => {
     const sheetID = sheetUrl.split("/d/")[1].split("/")[0];
 
     axios
@@ -31,7 +31,7 @@ const useAPI = () => {
       });
   };
 
-  const askGemini = ({ prompt, setAnswer }) => {
+  const askGemini = ({ prompt }) => {
     axios
       .post(`${BASE_URL}/askGemini`, {
         prompt,
@@ -45,7 +45,15 @@ const useAPI = () => {
       });
   };
 
-  return { fetchSheetData, askGemini };
+  return {
+    fetchSheetData,
+    askGemini,
+    columnTitles,
+    rowData,
+    answer,
+    question,
+    setQuestion,
+  };
 };
 
 export default useAPI;

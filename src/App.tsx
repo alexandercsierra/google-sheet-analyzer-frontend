@@ -2,36 +2,37 @@ import { useState } from "react";
 import "./App.css";
 import DataTable from "./components/DataTable";
 import useAPI from "./hooks/useAPI";
+import CustomInput from "./components/CustomInput";
 
 const RANGE = "A1:G68";
 const SHEET = "Sheet1";
 
 function App() {
-  const [columnTitles, setColumnTitles] = useState<string[]>([]);
-  const [rowData, setRowData] = useState<any[]>([]);
   const [sheetUrl, setSheetUrl] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
-  const [question, setQuestion] = useState<string>("");
-
-  const { fetchSheetData, askGemini } = useAPI();
+  const {
+    fetchSheetData,
+    askGemini,
+    columnTitles,
+    rowData,
+    answer,
+    question,
+    setQuestion,
+  } = useAPI();
 
   const handleFetchData = ({ sheet, range }) => {
     fetchSheetData({
       sheetUrl,
       sheet,
       range,
-      setColumnTitles,
-      setRowData,
     });
   };
 
-  const handleAskQuestion = ({ question, setAnswer }) => {
+  const handleAskQuestion = ({ question }) => {
     askGemini({
       prompt: `Given the following data from a google sheet: ${JSON.stringify({
         columnTitles,
         rowData,
       })}, answer the following question please, and format your answer neatly in paragraphs in markdown: ${question}`,
-      setAnswer,
     });
   };
 
@@ -39,9 +40,9 @@ function App() {
     <>
       <section id="center">
         <div>
-          <h1>Google sheets</h1>
+          <h1>Google Sheets Analyzer</h1>
         </div>
-        <input
+        <CustomInput
           style={{
             width: "50%",
             fontSize: "1.5rem",
@@ -68,7 +69,7 @@ function App() {
         >
           Get sheet data
         </button>
-        <input
+        <CustomInput
           style={{
             width: "50%",
             fontSize: "1.5rem",
@@ -89,7 +90,6 @@ function App() {
           onClick={() =>
             handleAskQuestion({
               question,
-              setAnswer,
             })
           }
         >
