@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const useAPI = () => {
   const [columnTitles, setColumnTitles] = useState<string[]>([]);
@@ -37,7 +37,6 @@ const useAPI = () => {
         prompt,
       })
       .then((response) => {
-        console.log("Gemini response:", response.data);
         setAnswer(response.data.answer);
       })
       .catch((error) => {
