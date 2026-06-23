@@ -36,6 +36,10 @@ const useAPI = () => {
   };
 
   const askGemini = ({ prompt }) => {
+    if (!rowData?.length) {
+      setAnswer("Please provide data for Gemini to analyze.");
+      return;
+    }
     setIsLoadingGemini(true);
     axios
       .post(`${BASE_URL}/askGemini`, {
@@ -46,6 +50,7 @@ const useAPI = () => {
       })
       .catch((error) => {
         console.error("Error asking Gemini:", error);
+        setAnswer(error.message);
       })
       .finally(() => setIsLoadingGemini(false));
   };

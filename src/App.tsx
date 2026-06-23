@@ -27,42 +27,58 @@ function App() {
 
   return (
     <>
-      <section>
-        <div
-          style={{
-            paddingTop: "50px",
-            paddingBottom: "50px",
-            background: "#6e1a1a",
-          }}
-        >
-          <h1>Google Sheets Analyzer</h1>
-        </div>
-        <SheetForm
-          fetchSheetData={fetchSheetData}
-          isLoading={isLoadingSheets}
-        />
-        <GeminiForm
-          askGemini={askGemini}
-          columnTitles={columnTitles}
-          rowData={rowData}
-          setQuestion={setQuestion}
-          question={question}
-          isLoading={isLoadingGemini}
-        />
-      </section>
-      {answer && <GeminiAnswer answer={answer} />}
-      {Object.keys(columnTitles).length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <DataTable columnTitles={columnTitles} rowData={rowData} />
+      <div
+        style={{
+          paddingTop: "50px",
+          paddingBottom: "50px",
+          background: "#6e1a1a",
+        }}
+      >
+        <h1>Google Sheets Analyzer</h1>
+      </div>
+      <SheetForm fetchSheetData={fetchSheetData} isLoading={isLoadingSheets} />
+      <div
+        style={{
+          maxHeight: "500px",
+          overflowY: "scroll",
+          background: "#1c1d25",
+          paddingTop: "10px",
+          paddingBottom: "10px",
+        }}
+      >
+        {Object.keys(columnTitles).length > 0 && (
+          <SheetData titles={columnTitles} rows={rowData} />
+        )}
+      </div>
+      {rowData?.length > 0 && (
+        <div style={{ paddingBottom: "300px" }}>
+          <GeminiForm
+            askGemini={askGemini}
+            columnTitles={columnTitles}
+            rowData={rowData}
+            setQuestion={setQuestion}
+            question={question}
+            isLoading={isLoadingGemini}
+          />
+          {answer && <GeminiAnswer answer={answer} />}
         </div>
       )}
     </>
   );
 }
+
+const SheetData = ({ titles, rows }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        maxWidth: "100%",
+        overflowX: "scroll",
+      }}
+    >
+      <DataTable columnTitles={titles} rowData={rows} />
+    </div>
+  );
+};
 
 export default App;
