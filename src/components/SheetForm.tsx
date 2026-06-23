@@ -32,6 +32,7 @@ function SheetForm({ fetchSheetData }) {
       <CustomInput
         label="Spreadsheet URL"
         placeholder="Paste the URL to your google spreadsheet"
+        subtitle="please make sure your sheet is public"
         onChange={(e) => {
           setSheetUrl(e.target.value);
         }}

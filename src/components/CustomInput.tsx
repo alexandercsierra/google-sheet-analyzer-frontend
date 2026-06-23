@@ -4,12 +4,14 @@ const CustomInput = ({
   style = {},
   onChange,
   value,
+  subtitle,
 }: {
   label?: string;
   placeholder: string;
   style?: React.CSSProperties;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  subtitle?: string;
 }) => {
   return (
     <div
@@ -34,6 +36,7 @@ const CustomInput = ({
         onChange={onChange}
         value={value}
       />
+      {subtitle && <h5 style={{ marginTop: "0" }}>{subtitle}</h5>}
     </div>
   );
 };
