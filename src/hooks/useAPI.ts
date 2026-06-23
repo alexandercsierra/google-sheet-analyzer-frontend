@@ -50,7 +50,13 @@ const useAPI = () => {
       })
       .catch((error) => {
         console.error("Error asking Gemini:", error);
-        setAnswer(error.message);
+
+        try {
+          const parsedError = JSON.parse(error?.response?.data?.error);
+          setAnswer(parsedError.error.message);
+        } catch {
+          setAnswer("Something went wrong. Please try again.");
+        }
       })
       .finally(() => setIsLoadingGemini(false));
   };
