@@ -8,8 +8,11 @@ const useAPI = () => {
   const [rowData, setRowData] = useState<any[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [question, setQuestion] = useState<string>("");
+  const [isLoadingSheets, setIsLoadingSheets] = useState<boolean>(false);
+  const [isLoadingGemini, setIsLoadingGemini] = useState<boolean>(false);
 
   const fetchSheetData = ({ sheetUrl, sheet, range }) => {
+    setIsLoadingSheets(true);
     const sheetID = sheetUrl.split("/d/")[1].split("/")[0];
 
     axios
@@ -28,10 +31,12 @@ const useAPI = () => {
       })
       .catch((error) => {
         console.error("Error fetching sheet data:", error);
-      });
+      })
+      .finally(() => setIsLoadingSheets(false));
   };
 
   const askGemini = ({ prompt }) => {
+    setIsLoadingGemini(true);
     axios
       .post(`${BASE_URL}/askGemini`, {
         prompt,
@@ -41,7 +46,8 @@ const useAPI = () => {
       })
       .catch((error) => {
         console.error("Error asking Gemini:", error);
-      });
+      })
+      .finally(() => setIsLoadingGemini(false));
   };
 
   return {
@@ -52,6 +58,10 @@ const useAPI = () => {
     answer,
     question,
     setQuestion,
+    setIsLoadingSheets,
+    isLoadingSheets,
+    isLoadingGemini,
+    setIsLoadingGemini,
   };
 };
 

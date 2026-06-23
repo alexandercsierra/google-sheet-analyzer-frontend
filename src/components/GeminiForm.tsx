@@ -7,6 +7,7 @@ function GeminiForm({
   rowData,
   setQuestion,
   question,
+  isLoading,
 }) {
   const handleAskQuestion = ({ question }) => {
     askGemini({
@@ -45,6 +46,7 @@ function GeminiForm({
         value={question}
       />
       <SubmitButton
+        isLoading={isLoading}
         label="Ask Gemini"
         onClick={() =>
           handleAskQuestion({

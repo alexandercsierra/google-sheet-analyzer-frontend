@@ -2,7 +2,7 @@ import { useState } from "react";
 import CustomInput from "./CustomInput";
 import SubmitButton from "./SubmitButton";
 
-function SheetForm({ fetchSheetData }) {
+function SheetForm({ fetchSheetData, isLoading }) {
   const [sheetUrl, setSheetUrl] = useState<string>(
     import.meta.env.VITE_DEFAULT_SHEET || ""
   );
@@ -55,6 +55,7 @@ function SheetForm({ fetchSheetData }) {
         value={cellRange}
       />
       <SubmitButton
+        isLoading={isLoading}
         label="get sheet data"
         onClick={() =>
           fetchSheetData({

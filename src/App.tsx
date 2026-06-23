@@ -16,6 +16,8 @@ function App() {
     answer,
     question,
     setQuestion,
+    isLoadingSheets,
+    isLoadingGemini,
   } = useAPI();
 
   // make sure API ready to receive data on free tier
@@ -35,13 +37,17 @@ function App() {
         >
           <h1>Google Sheets Analyzer</h1>
         </div>
-        <SheetForm fetchSheetData={fetchSheetData} />
+        <SheetForm
+          fetchSheetData={fetchSheetData}
+          isLoading={isLoadingSheets}
+        />
         <GeminiForm
           askGemini={askGemini}
           columnTitles={columnTitles}
           rowData={rowData}
           setQuestion={setQuestion}
           question={question}
+          isLoading={isLoadingGemini}
         />
       </section>
       {answer && <GeminiAnswer answer={answer} />}
